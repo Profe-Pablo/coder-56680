@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { colors } from '../global/colors'
 
 const Header = ({title}) => {
   return (
@@ -14,7 +15,7 @@ export default Header
 const styles = StyleSheet.create({
     headerContainer:{
         height:100,
-        backgroundColor:"#fe5e41",
+        backgroundColor:colors.primary,
         justifyContent:"flex-end",
         paddingBottom:10,
         paddingLeft:10,
