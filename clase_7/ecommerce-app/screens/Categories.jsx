@@ -4,12 +4,11 @@ import Header from '../components/Header'
 import categories_data from '../data/categories_data.json'
 import CategoryItem from '../components/CategoryItem'
 
-const Categories = () => {
-  //console.log(categories_data)
+const Categories = ({onSelectCategoryEvent}) => {
 
   const renderCategoryItem=({item})=>{
     return(
-      <CategoryItem category={item} />
+      <CategoryItem category={item} onSelectCategoryEvent={onSelectCategoryEvent} />
     )
   }
 
