@@ -3,16 +3,19 @@ import React, { useState, useEffect } from 'react'
 import ProductItem from '../components/ProductItem'
 import products_data from '../data/products_data.json'
 import Header from '../components/Header'
+import Search from '../components/Search'
 
 
 const ProductsByCategory = ({ category,returnHomeHandlerEvent }) => {
 
   const [productsByCategory, setProductsByCategory] = useState();
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
-    const productsFilterByCategory = products_data.filter(product => product.category == category)
-    setProductsByCategory(productsFilterByCategory)
-  }, [category])
+    const productsFilteredByCategory = products_data.filter(product => product.category == category)
+    const productsFiltered = productsFilteredByCategory.filter(product => product.title.toLowerCase().includes(search.toLowerCase()))
+    setProductsByCategory(productsFiltered)
+  }, [category, search])
 
   const renderProductItem = ({ item }) => {
     return (
@@ -20,10 +23,15 @@ const ProductsByCategory = ({ category,returnHomeHandlerEvent }) => {
     )
   }
 
+  const onSearch = (search) =>{
+    setSearch(search)
+  }
+
   return (
     <>
 
       <Header title="Productos" returnHomeHandlerEvent={returnHomeHandlerEvent} />
+      <Search onSearchHandlerEvent={onSearch} />
       <FlatList
         data={productsByCategory}
         renderItem={renderProductItem}
