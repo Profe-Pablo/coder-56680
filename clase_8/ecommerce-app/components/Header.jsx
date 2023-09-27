@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, Text, View, StatusBar } from 'react-native'
 import React from 'react'
 import { colors } from '../global/colors'
 import { AntDesign } from '@expo/vector-icons';
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingBottom: 10,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   headerTitle: {
     color: "#fff",

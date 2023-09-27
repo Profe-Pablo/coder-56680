@@ -1,7 +1,7 @@
 import Categories from './screens/Categories';
 import ProductsByCategory from './screens/ProductsByCategory';
 import ProductDetail from './screens/ProductDetail';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, SafeAreaView } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useState } from 'react';
 
@@ -37,7 +37,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <SafeAreaView>
      {
         productIdSelected
         ?
@@ -53,7 +53,7 @@ export default function App() {
         : 
         <Categories onSelectCategoryEvent={onSelectCategory} />
       }
-    </>
+    </SafeAreaView>
   );
 }
 
