@@ -14,7 +14,6 @@ const Categories = ({navigation}) => {
 
   return (
     <>
-      <Header title="Categorías" />
       <FlatList
        data={categories_data}
        renderItem={renderCategoryItem}     

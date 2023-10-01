@@ -10,13 +10,11 @@ import Card from './Card'
 
 const ProductItem = ({ item, navigation }) => {
 
-    const { height, width } = useWindowDimensions();
-
-    
+    const { height, width } = useWindowDimensions();  
 
     return (
         <Card>
-            <Pressable onPress={()=>navigation.navigate("Detalles")} style={styles.containerProductItem}>
+            <Pressable onPress={()=>navigation.navigate("Detalles", item.id)} style={styles.containerProductItem}>
                 <Text style={
                     width < 350
                         ?

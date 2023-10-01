@@ -5,7 +5,7 @@ import Card from './Card'
 const CategoryItem = ({ category, navigation }) => {
 
     return (
-        <Pressable onPress={() =>navigation.navigate("Productos") }
+        <Pressable onPress={() =>navigation.navigate("Productos", {category}) }
         >
             <Card style={styles.cardContainer}>
                 <Text style={styles.text}>{category}</Text>

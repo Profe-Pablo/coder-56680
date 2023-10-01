@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View, Image, ActivityIndicator, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
 import products_data from "../data/products_data.json";
 import { colors } from '../global/colors';
 
-const ProductDetail = ({ productId, returnHomeHandlerEvent }) => {
+const ProductDetail = ({ route }) => {
 
   const [productSelected, setProductSelected] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [isPortrait, setIsPortrait] = useState(true)
 
   const { height, width } = useWindowDimensions()
+
+  const productId = route.params
 
   useEffect(() => {
     height < width ? setIsPortrait(false) : setIsPortrait(true)
@@ -19,12 +20,10 @@ const ProductDetail = ({ productId, returnHomeHandlerEvent }) => {
 
   useEffect(() => {
     const productFinded = products_data.find(product => product.id === productId)
-    //setProductSelected(productFinded)
-    setProductSelected(products_data[1]) //Cambio provisorio para probar Navigation
+    setProductSelected(productFinded)
     setIsLoading(false)
   }, [productId])
 
-  console.log(isPortrait)
 
   return (
     <>
@@ -34,7 +33,6 @@ const ProductDetail = ({ productId, returnHomeHandlerEvent }) => {
           <ActivityIndicator />
           :
           <ScrollView>
-            <Header title="Detalle del producto" returnHomeHandlerEvent={returnHomeHandlerEvent} />
             <View>
               <Image
                 source={{ uri: productSelected.images[0] }}
