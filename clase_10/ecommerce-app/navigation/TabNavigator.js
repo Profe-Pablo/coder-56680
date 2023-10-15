@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import ShopNavigator from "./ShopNavigator"
 import CartNavigator from "./CartNavigator"
+import OrdersNavigator from "./OrdersNavigator"
 import { StyleSheet, View } from "react-native"
 import { colors } from "../global/colors"
 import { Entypo } from '@expo/vector-icons'; 
@@ -43,6 +44,22 @@ const TabNavigator = () => {
                         return(
                             <View>  
                                 <FontAwesome name="opencart" 
+                                    size={24} 
+                                    color={focused?"#fff":colors.primaryDeep}
+                                />
+                            </View>
+                        );
+                    }
+                }}
+            />
+            <Tab.Screen 
+                name="OrdersStack" 
+                component={OrdersNavigator} 
+                options={{
+                    tabBarIcon: ({focused}) => {
+                        return(
+                            <View>  
+                                <FontAwesome name="list-ul" 
                                     size={24} 
                                     color={focused?"#fff":colors.primaryDeep}
                                 />
