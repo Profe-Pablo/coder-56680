@@ -1,37 +1,72 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Input from '../components/Input'
 import { colors } from '../global/colors'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSignUpMutation } from '../services/AuthService'
+import { signupSchema } from '../validations/singupSchema'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../features/auth/authSlice'
 
 const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [errorMail, setErrorMail] = useState("")
+  const [errorPassword, setErrorPassword] = useState("")
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState("")
 
   const [triggerSignUp, result] = useSignUpMutation()
+  const dispatch = useDispatch()
 
   const onSubmit = () => {
-    triggerSignUp({email,password})
+  
+    try{ 
+      signupSchema.validateSync({email,password,confirmPassword})
+      triggerSignUp({email,password})
+    }catch(error){
+      console.log("Error al registrar usuario")
+      console.log("Ruta: ", error.path)
+      switch(error.path) {
+        case 'email':
+          setErrorMail(error.errors)
+          break
+        case 'password':
+          setErrorPassword(error.errors)
+          break
+        case 'confirmPassword':
+          setErrorConfirmPassword(error.errors)
+          break
+        default:
+            break
+      }
+    }
+    
   }
+
+  useEffect(()=> {
+    if(result.data){
+        //console.log("Result Login: ",result.data)
+        dispatch(setUser(result.data))
+    }   
+}, [result])
 
   return (
     <View style={styles.container}>
         <Input
             label="Email:"
             onChange={setEmail}
-            error=""
+            error={errorMail}
         />
         <Input
             label="Password:"
             onChange={setPassword}
-            error=""
+            error={errorPassword}
             isSecure={true}
         />
         <Input
             label="Repetir password:"
             onChange={setConfirmPassword}
-            error=""
+            error={errorConfirmPassword}
             isSecure={true}
         />
         <TouchableOpacity style={styles.btn} onPress={onSubmit}>
