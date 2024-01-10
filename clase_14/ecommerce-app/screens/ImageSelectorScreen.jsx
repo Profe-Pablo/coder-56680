@@ -1,14 +1,21 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, useWindowDimensions } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { colors } from '../global/colors';
 import * as ImagePicker from 'expo-image-picker';
+import { useSelector, useDispatch } from 'react-redux';
+import { setProfilePicture } from '../features/auth/authSlice';
+import { usePostProfilePictureMutation } from '../services/shopService';
 
+const ImageSelectorScreen = ({navigation}) => {
 
-const ImageSelectorScreen = () => {
+    const localId = useSelector(state=>state.authReducer.localId)
 
     const [image, setImage] = useState('')
 
+    const dispatch = useDispatch()
+
+    const [triggerSaveProfilePicture, result] = usePostProfilePictureMutation()
 
     const verifyCameraPermissions = async () => {
         const { granted } = await ImagePicker.requestCameraPermissionsAsync()
@@ -36,7 +43,18 @@ const ImageSelectorScreen = () => {
             console.log("No se han otorgado permisos para usar la cámara")
         }
     }
-    const confirmImage = () => { }
+    
+    const confirmImage = () => { 
+        dispatch(setProfilePicture(image))
+        triggerSaveProfilePicture({image,localId})
+        navigation.goBack()
+    }
+
+    useEffect(()=>{
+        /* console.log(result)
+        console.log(localId)
+        console.log(image) */
+    },[result,image,localId])
 
     return (
         <View style={styles.container}>
